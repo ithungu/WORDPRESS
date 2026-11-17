@@ -1,0 +1,582 @@
+
+<?php
+/*
+Template Name: Next Generation Leadership Homepage
+Description: Complete homepage for the Next Generation Leadership Programme.
+Version: 1.0
+*/
+
+if (!defined('ABSPATH')) {
+    exit;
+}
+
+$theme_url = get_template_directory_uri();
+$home_url  = home_url('/');
+?>
+
+<!DOCTYPE html>
+<html <?php language_attributes(); ?>>
+
+<head>
+    <meta charset="<?php bloginfo('charset'); ?>">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?php echo esc_html(wp_get_document_title()); ?></title>
+
+    <?php wp_head(); ?>
+
+    <style>
+
+    :root {
+        --primary: #123d32;
+        --secondary: #d6a84b;
+        --light: #f7f8f5;
+        --dark: #17231f;
+        --white: #ffffff;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        background: var(--white);
+        color: var(--dark);
+        line-height: 1.7;
+    }
+
+    a {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    img {
+        max-width: 100%;
+    }
+
+    /* HEADER */
+
+    .site-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 18px 7%;
+        background: var(--white);
+        box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+        position: relative;
+        z-index: 100;
+    }
+
+    .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        color: var(--primary);
+        font-size: 14px;
+        font-weight: bold;
+        line-height: 1.3;
+    }
+
+    .site-logo {
+        width: 58px;
+        height: 58px;
+        object-fit: contain;
+    }
+
+    /* NAVIGATION */
+
+    .navigation {
+        display: flex;
+        align-items: center;
+        gap: 28px;
+    }
+
+    .navigation a {
+        font-size: 14px;
+        font-weight: 600;
+        transition: 0.3s;
+    }
+
+    .navigation a:hover,
+    .navigation a.active {
+        color: var(--secondary);
+    }
+
+    .menu-toggle {
+        display: none;
+        border: none;
+        background: none;
+        color: var(--primary);
+        font-size: 28px;
+        cursor: pointer;
+    }
+
+    /* HERO SECTION */
+
+    .hero {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 55px;
+        align-items: center;
+        padding: 90px 8%;
+        background: var(--light);
+    }
+
+    .eyebrow {
+        color: var(--secondary);
+        font-size: 13px;
+        font-weight: bold;
+        letter-spacing: 3px;
+        margin-bottom: 18px;
+    }
+
+    .hero h1 {
+        font-size: clamp(38px, 5vw, 60px);
+        line-height: 1.15;
+        color: var(--primary);
+        margin-bottom: 25px;
+    }
+
+    .hero h1 span {
+        color: var(--secondary);
+    }
+
+    .intro {
+        font-size: 17px;
+        max-width: 560px;
+        margin-bottom: 30px;
+        color: #58635e;
+    }
+
+    /* BUTTONS */
+
+    .hero-actions {
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+        margin-top: 25px;
+    }
+
+    .button {
+        display: inline-block;
+        padding: 13px 25px;
+        border-radius: 5px;
+        font-weight: bold;
+        transition: 0.3s;
+        cursor: pointer;
+    }
+
+    .button-primary {
+        background: var(--primary);
+        color: var(--white);
+    }
+
+    .button-primary:hover {
+        background: var(--secondary);
+        color: var(--dark);
+    }
+
+    .button-outline {
+        border: 1px solid var(--primary);
+        color: var(--primary);
+    }
+
+    .button-outline:hover {
+        background: var(--primary);
+        color: var(--white);
+    }
+
+    /* HERO IMAGE */
+
+    .hero-art {
+        position: relative;
+        overflow: hidden;
+        border-radius: 12px;
+    }
+
+    .hero-art img {
+        width: 100%;
+        height: 390px;
+        object-fit: cover;
+        display: block;
+    }
+
+    .image-caption {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 17px;
+        background: rgba(18,61,50,0.92);
+        color: white;
+        text-align: center;
+        font-weight: bold;
+    }
+
+    /* WELCOME SECTION */
+
+    .section {
+        padding: 85px 8%;
+        text-align: center;
+    }
+
+    .welcome h2 {
+        color: var(--primary);
+        font-size: clamp(28px, 4vw, 40px);
+        line-height: 1.3;
+        margin-bottom: 20px;
+    }
+
+    .welcome > p:not(.eyebrow) {
+        max-width: 750px;
+        margin: auto;
+        color: #58635e;
+        font-size: 17px;
+    }
+
+    .welcome .hero-actions {
+        justify-content: center;
+    }
+
+    /* FOOTER */
+
+    .site-footer {
+        background: var(--primary);
+        color: var(--white);
+        text-align: center;
+        padding: 40px 20px;
+    }
+
+    .footer-brand {
+        display: inline-block;
+        font-weight: bold;
+        line-height: 1.4;
+        margin-bottom: 12px;
+    }
+
+    .site-footer p {
+        margin-top: 8px;
+        font-size: 14px;
+    }
+
+    /* MOBILE RESPONSIVENESS */
+
+    @media (max-width: 900px) {
+
+        .menu-toggle {
+            display: block;
+        }
+
+        .navigation {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: white;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 25px 7%;
+            gap: 18px;
+            box-shadow: 0 8px 12px rgba(0,0,0,0.08);
+        }
+
+        .navigation.open {
+            display: flex;
+        }
+
+        .hero {
+            grid-template-columns: 1fr;
+            padding: 55px 7%;
+        }
+
+        .hero-art img {
+            height: 320px;
+        }
+    }
+
+    @media (max-width: 480px) {
+
+        .brand {
+            font-size: 11px;
+        }
+
+        .site-logo {
+            width: 45px;
+            height: 45px;
+        }
+
+        .hero {
+            padding: 45px 6%;
+        }
+
+        .hero-actions {
+            flex-direction: column;
+        }
+
+        .button {
+            text-align: center;
+        }
+
+        .section {
+            padding: 60px 6%;
+        }
+
+    }
+
+    </style>
+
+</head>
+
+<body <?php body_class('nglp-page'); ?>>
+
+<?php wp_body_open(); ?>
+
+<!-- HEADER -->
+
+<header class="site-header">
+
+    <a class="brand"
+       href="<?php echo esc_url($home_url); ?>"
+       aria-label="Next Generation Leadership Programme home">
+
+        <img
+            src="<?php echo esc_url($theme_url . '/assets/logo.png'); ?>"
+            alt="Programme Logo"
+            class="site-logo"
+        >
+
+        <span class="brand-name">
+            NEXT GENERATION<br>
+            LEADERSHIP PROGRAMME
+        </span>
+
+    </a>
+
+    <button
+        class="menu-toggle"
+        type="button"
+        aria-label="Open navigation"
+        aria-expanded="false"
+        aria-controls="primary-navigation">
+
+        ☰
+
+    </button>
+
+    <nav
+        class="navigation"
+        id="primary-navigation"
+        aria-label="Main navigation">
+
+        <a class="active"
+           href="<?php echo esc_url($home_url); ?>"
+           aria-current="page">
+            Home
+        </a>
+
+        <a href="<?php echo esc_url(home_url('/about-us/')); ?>">
+            About Us
+        </a>
+
+        <a href="<?php echo esc_url(home_url('/programme/')); ?>">
+            Programme
+        </a>
+
+        <a href="<?php echo esc_url(home_url('/our-boards/')); ?>">
+            Our Boards
+        </a>
+
+        <a href="<?php echo esc_url(home_url('/contact-us/')); ?>">
+            Contact Us
+        </a>
+
+    </nav>
+
+</header>
+
+
+<!-- MAIN CONTENT -->
+
+<main>
+
+    <!-- HERO SECTION -->
+
+    <section class="hero">
+
+        <div class="hero-copy">
+
+            <p class="eyebrow">
+                WELCOME, SCHOLARS
+            </p>
+
+            <h1>
+                About the<br>
+                <span>Leadership Programme</span>
+            </h1>
+
+            <p class="intro">
+                Hello, scholars! Welcome to the Next Generation
+                Leadership Programme, where leadership meets service.
+                We create opportunities for people serving the Church
+                to learn, grow and make a difference in their communities.
+            </p>
+
+            <div class="hero-actions">
+
+                <a class="button button-primary" href="#mission">
+                    Discover Our Mission
+                </a>
+
+                <a class="button button-outline"
+                   href="<?php echo esc_url($home_url); ?>">
+                    Visit Home Page
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="hero-art">
+
+            <img
+                src="<?php echo esc_url($theme_url . '/assets/image1.jpg'); ?>"
+                alt="The Next Generation Leadership Programme displayed on a laptop screen"
+            >
+
+            <div class="image-caption">
+                Building leaders. Serving communities.
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- WELCOME AND MISSION SECTION -->
+
+    <section class="section welcome" id="mission">
+
+        <p class="eyebrow">
+            LEARN • LEAD • SERVE
+        </p>
+
+        <h2>
+            Welcome to the Next Generation Leadership Programme
+        </h2>
+
+        <p>
+            Leadership meets service. We create opportunities for
+            people serving the Church to learn, grow and make a
+            difference in their communities.
+        </p>
+
+        <div class="hero-actions">
+
+            <a class="button button-primary"
+               href="<?php echo esc_url(home_url('/about-us/')); ?>">
+                Learn About Us
+            </a>
+
+            <a class="button button-outline"
+               href="<?php echo esc_url(home_url('/programme/')); ?>">
+                Explore the Programme
+            </a>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- FOOTER -->
+
+<footer class="site-footer">
+
+    <a class="footer-brand"
+       href="<?php echo esc_url($home_url); ?>">
+
+        NEXT GENERATION<br>
+        LEADERSHIP PROGRAMME
+
+    </a>
+
+    <p>
+        Learn • Lead • Serve
+    </p>
+
+    <p>
+        © <?php echo esc_html(wp_date('Y')); ?>
+        Next Generation Leadership Programme
+    </p>
+
+</footer>
+
+
+<!-- MOBILE NAVIGATION JAVASCRIPT -->
+
+<script>
+
+document.addEventListener('DOMContentLoaded', function() {
+
+    const menuButton = document.querySelector('.menu-toggle');
+
+    const nav = document.querySelector('.navigation');
+
+    if (!menuButton || !nav) {
+        return;
+    }
+
+    menuButton.addEventListener('click', function() {
+
+        const isOpen = nav.classList.toggle('open');
+
+        menuButton.setAttribute(
+            'aria-expanded',
+            String(isOpen)
+        );
+
+        menuButton.setAttribute(
+            'aria-label',
+            isOpen ? 'Close navigation' : 'Open navigation'
+        );
+
+        menuButton.textContent = isOpen ? '✕' : '☰';
+
+    });
+
+    nav.querySelectorAll('a').forEach(function(link) {
+
+        link.addEventListener('click', function() {
+
+            nav.classList.remove('open');
+
+            menuButton.setAttribute('aria-expanded', 'false');
+
+            menuButton.setAttribute(
+                'aria-label',
+                'Open navigation'
+            );
+
+            menuButton.textContent = '☰';
+
+        });
+
+    });
+
+});
+
+</script>
+
+<?php wp_footer(); ?>
+
+</body>
+</html>
